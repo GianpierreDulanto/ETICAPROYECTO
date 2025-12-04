@@ -881,7 +881,7 @@ export default function ChatbotANMI({ estaOffline = false }) {
         },
       ]);
     }
-  }, [mostrarAviso, chatActualId]);
+  }, [mostrarAviso, chatActualId, mensajes.length]);
 
   // ⭐ NUEVO: detección de instalabilidad PWA
   useEffect(() => {
