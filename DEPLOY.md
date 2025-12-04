@@ -33,7 +33,15 @@ Esta guía te ayudará a hostear tu aplicación React en Railway de forma segura
 
 ✅ Ahora tu clave API está guardada de forma segura en Railway
 
-### 4. Configurar el Build
+### 4. Configurar Node.js 20
+
+**IMPORTANTE**: Este proyecto requiere Node.js 20 o superior. Railway debería detectarlo automáticamente gracias al archivo `.nvmrc`, pero puedes verificar:
+
+1. Ve a la pestaña **Settings** de tu servicio
+2. En **Build Settings**, verifica que está usando Node.js 20
+3. Si no, puedes configurarlo manualmente o Railway lo detectará del archivo `.nvmrc`
+
+### 5. Configurar el Build
 
 Railway debería detectar automáticamente que es una aplicación React, pero puedes verificar:
 
@@ -41,16 +49,6 @@ Railway debería detectar automáticamente que es una aplicación React, pero pu
 2. Verifica que:
    - **Build Command**: `npm run build` (o está vacío, Railway lo detectará)
    - **Start Command**: `npx serve -s build -l $PORT` (para servir la app estática)
-
-### 5. Instalar dependencia para servir la app
-
-Railway necesita un servidor para servir tu aplicación React. Agrega `serve` como dependencia:
-
-```bash
-npm install --save serve
-```
-
-O actualiza tu `package.json` manualmente agregando `serve` en `dependencies`.
 
 ### 6. Desplegar
 
@@ -92,9 +90,17 @@ grep "\.env" .gitignore
 - El nombre debe ser exactamente: `REACT_APP_GEMINI_API_KEY`
 - Reinicia el deployment después de agregar la variable
 
+### Error: "Unsupported engine" o problemas con Node.js
+- Verifica que Railway está usando Node.js 20 o superior
+- El archivo `.nvmrc` debería forzar Node 20, pero si no funciona:
+  - Ve a Settings → Variables
+  - Agrega: `NODE_VERSION=20`
+- También verifica que `package.json` tiene `"engines": { "node": ">=20.0.0" }`
+
 ### Error: "Cannot find module 'serve'"
-- Instala `serve` como dependencia: `npm install --save serve`
-- O verifica que está en `package.json` en `dependencies`
+- `serve` ya está en `package.json` como dependencia
+- Si el error persiste, verifica que `package-lock.json` está actualizado
+- Ejecuta `npm install` localmente y haz commit del `package-lock.json` actualizado
 
 ### El build falla
 - Revisa los logs en Railway → Deployments → [último deployment] → View Logs
